@@ -10,17 +10,20 @@ const nav = [
 
 // 当前路径，用于高亮导航
 const current = Astro.url.pathname;
+
+// 站点基础路径（部署时是 /shanglu-site/，本地开发是空），所有链接都要带上
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="logo">商陆<span>也有禄</span></a>
+    <a href={base + "/"} class="logo">商陆<span>也有禄</span></a>
     <nav>
       {
         nav.map((item) => (
           <a
-            href={item.href}
-            class:list={["nav-link", { active: current === item.href }]}
+            href={base + item.href}
+            class:list={["nav-link", { active: current === base + item.href }]}
           >
             {item.label}
           </a>

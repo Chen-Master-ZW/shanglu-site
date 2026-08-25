@@ -1,6 +1,9 @@
 ---
 // 首页：大标语 + 炫酷可视化 + 精选入口
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// 站点基础路径（部署时是 /shanglu-site/，本地开发是空）
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <BaseLayout title="商陆也有禄 —— 普通人如何在当下社会里快速积累认知">
@@ -15,8 +18,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       不贩卖焦虑，只记录真实的思考、模型与行动。
     </p>
     <div class="hero-actions">
-      <a href="/articles" class="btn btn-primary">读文章</a>
-      <a href="/visuals" class="btn btn-ghost">看可视化</a>
+      <a href={base + "/articles"} class="btn btn-primary">读文章</a>
+      <a href={base + "/visuals"} class="btn btn-ghost">看可视化</a>
     </div>
   </section>
 
@@ -39,15 +42,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <p>网站现在还是骨架，内容会一点点长出来</p>
     </div>
     <div class="card-grid">
-      <a href="/articles" class="card">
+      <a href={base + "/articles"} class="card">
         <h3>📝 文章</h3>
         <p>公众号长文沉淀：思维模型、认知方法、决策复盘</p>
       </a>
-      <a href="/knowledge" class="card">
+      <a href={base + "/knowledge"} class="card">
         <h3>📚 知识库</h3>
         <p>Obsidian 笔记公开版：主题化的长期积累，带关系图谱</p>
       </a>
-      <a href="/visuals" class="card">
+      <a href={base + "/visuals"} class="card">
         <h3>📊 可视化</h3>
         <p>用数据讲故事：图表集、交互探索、数据大屏</p>
       </a>

@@ -21,6 +21,7 @@
 - [x] **方案 C 框架确定**（商陆选定）：首页 / 文章 / 知识库 / 可视化 / 关于我
 - [x] **页面骨架完成**：BaseLayout + Header(导航) + Footer + 五个页面全部 200
 - [x] **首页已含 ECharts 示例图**（认知积累曲线，深色科技风）
+- [x] **已部署上线**：https://chen-master-zw.github.io/shanglu-site/（GitHub Actions 自动部署，push main 即发布）
 - [ ] 内容填充（文章从公众号搬入、知识库整理）
 - [ ] 真实可视化作品（ECharts 交互）
 - [ ] 关于我放公众号二维码
