@@ -58,6 +58,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 </BaseLayout>
 
 <style>
+  /* 板块大字标识：科（128px） */
+  .page-head .sec-no {
+    font-size: 128px;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin-bottom: 1.2rem;
+  }
+
   .intro {
     padding: 1.2rem 0 1.2rem 1.6rem;
     border-left: 2px solid var(--accent);
