@@ -95,3 +95,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     gap: 1.1rem;
   }
 </style>
+
+<script>
+  // 「禄」大字宽度与下方标题「寻求机会」对齐（等宽）
+  const mark = document.querySelector(".page-head .sec-no");
+  const title = document.querySelector(".page-head h1");
+  function fitMark() {
+    if (mark && title) {
+      mark.style.fontSize = title.offsetWidth + "px";
+    }
+  }
+  fitMark();
+  window.addEventListener("resize", fitMark);
+</script>
