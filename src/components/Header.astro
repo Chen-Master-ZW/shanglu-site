@@ -1,10 +1,11 @@
 ---
-// 顶部导航组件：全站五个板块，当前页高亮
+// 顶部导航组件：全站五个板块，当前页高亮 + 主题切换按钮
 const nav = [
   { href: "/", label: "首页" },
-  { href: "/articles", label: "文章" },
-  { href: "/knowledge", label: "知识库" },
-  { href: "/visuals", label: "可视化" },
+  { href: "/articles", label: "禄" },
+  { href: "/knowledge", label: "权" },
+  { href: "/visuals", label: "科" },
+  { href: null, label: "忌" }, // 暂无对应页面，建设中
   { href: "/about", label: "关于我" },
 ];
 
@@ -17,18 +18,64 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 <header class="site-header">
   <div class="container">
-    <a href={base + "/"} class="logo">商陆<span>也有禄</span></a>
-    <nav>
-      {
-        nav.map((item) => (
-          <a
-            href={base + item.href}
-            class:list={["nav-link", { active: current === base + item.href }]}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
+    <a href={base + "/"} class="logo">商陆<span>有四化</span></a>
+    <div class="nav-right">
+      <nav>
+        {
+          nav.map((item) =>
+            item.href ? (
+              <a
+                href={base + item.href}
+                class:list={[
+                  "nav-link",
+                  { active: current === base + item.href },
+                ]}
+              >
+                {item.label}
+              </a>
+            ) : (
+              <span class="nav-link nav-disabled" title="建设中">
+                {item.label}
+              </span>
+            )
+          )
+        }
+      </nav>
+      <!-- 主题切换按钮：亮/暗 -->
+      <button id="theme-toggle" class="theme-toggle" aria-label="切换亮暗主题" title="切换亮暗主题">
+        <span id="theme-icon">🌙</span>
+      </button>
+    </div>
   </div>
 </header>
+
+<script>
+  // 主题切换逻辑：点击切换 data-theme，记忆到 localStorage，并通知全站（图表等）
+  const btn = document.getElementById("theme-toggle");
+  const icon = document.getElementById("theme-icon");
+
+  function currentTheme() {
+    return document.documentElement.getAttribute("data-theme") === "dark"
+      ? "dark"
+      : "light";
+  }
+
+  // 根据主题更新图标（亮色模式显示月亮=可切暗，暗色模式显示太阳=可切亮）
+  function updateIcon(theme) {
+    icon.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+
+  // 页面加载时同步一次图标
+  updateIcon(currentTheme());
+
+  btn.addEventListener("click", () => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateIcon(next);
+    // 广播主题变化，让页面里的图表等组件跟随切换
+    window.dispatchEvent(
+      new CustomEvent("themechange", { detail: { theme: next } })
+    );
+  });
+</script>

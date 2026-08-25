@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource/noto-serif-sc": "^5.2.8",
     "astro": "^7.2.6",
     "echarts": "^6.1.0"
   },

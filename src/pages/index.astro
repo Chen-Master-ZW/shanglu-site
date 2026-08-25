@@ -1,233 +1,1016 @@
 ---
-// 首页：大标语 + 炫酷可视化 + 精选入口
+// 首页：品牌 hero（四化印章 + 金句轮播）+ 个人资料 + 数据一览 + 四化标签 + 最近更新
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 // 站点基础路径（部署时是 /shanglu-site/，本地开发是空）
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<BaseLayout title="商陆也有禄 —— 普通人如何在当下社会里快速积累认知">
-  <!-- 大标语区 -->
+<BaseLayout title="商陆有四化 —— 普通人如何在当下社会里快速积累认知">
+  <!-- ===== 品牌区（非对称 hero） ===== -->
   <section class="hero">
-    <p class="hero-eyebrow">🌿 一个普通人的认知积累笔记</p>
-    <h1 class="hero-title">
-      商陆<span>也有禄</span>
-    </h1>
-    <p class="hero-sub">
-      普通人如何在当下社会里快速积累认知。<br />
-      不贩卖焦虑，只记录真实的思考、模型与行动。
-    </p>
-    <div class="hero-actions">
-      <a href={base + "/articles"} class="btn btn-primary">读文章</a>
-      <a href={base + "/visuals"} class="btn btn-ghost">看可视化</a>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <div class="hero-left">
+        <p class="hero-eyebrow">一个普通人的认知积累笔记</p>
+        <h1 class="hero-title">
+          商陆<span>有四化</span>
+        </h1>
+
+        <!-- 金句轮播：文字破碎又重组，逗号处换行 -->
+        <div id="quote-box" class="quote-box" aria-live="polite">
+          <p class="quote-line"></p>
+        </div>
+      </div>
+
+      <!-- 右侧：四化印章（单字轮换）+ 释义，背景为「四化」描边大字 -->
+      <div class="hero-right">
+        <div class="seal-area">
+          <div class="hero-watermark" aria-hidden="true">四化</div>
+          <div class="seal-panel">
+            <span class="seal-char">禄</span>
+            <span class="seal-char">权</span>
+            <span class="seal-char">科</span>
+            <span class="seal-char">忌</span>
+          </div>
+        </div>
+        <div class="seal-meanings">
+          <div class="seal-line"><span class="s-name">禄</span><span class="s-desc">寻求机会</span></div>
+          <div class="seal-line"><span class="s-name">权</span><span class="s-desc">长期积累</span></div>
+          <div class="seal-line"><span class="s-name">科</span><span class="s-desc">复利效应</span></div>
+          <div class="seal-line"><span class="s-name">忌</span><span class="s-desc">突破认知</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 巨型镂空字（hero 底部中央） -->
+    <div class="hero-scroll" aria-hidden="true">向下探索</div>
+  </section>
+
+  <!-- ===== 01 个人资料 ===== -->
+  <section class="section">
+    <div class="section-head">
+      <span class="sec-no">01</span>
+      <h2>关于我</h2>
+      <p>认识一下这个网站的主人</p>
+    </div>
+
+    <div class="profile">
+      <div class="avatar" aria-hidden="true">商</div>
+      <div class="profile-info">
+        <div class="profile-name">
+          商陆
+          <span class="profile-tag">禄</span>
+          <span class="profile-tag">权</span>
+          <span class="profile-tag">科</span>
+          <span class="profile-tag">忌</span>
+        </div>
+        <p class="profile-bio">
+          你好，我是商陆。这个网站记录我关于「认知积累」的思考与实践——普通人如何在当下社会里，用正确的方法持续成长。
+        </p>
+        <div class="profile-links">
+          <span class="link-item">公众号：商陆有四化（整理中）</span>
+          <span class="link-item">
+            邮箱：
+            <a href="mailto:1973641339@qq.com" class="link-mail">1973641339@qq.com</a>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 炫酷可视化占位（示例数据，后续换真实数据） -->
+  <!-- ===== 02 四化标签 ===== -->
   <section class="section">
     <div class="section-head">
-      <h2>📈 认知积累曲线</h2>
-      <p>示例图表：持续学习的人与停滞的人，20 年后的差距</p>
+      <span class="sec-no">02</span>
+      <h2>从这里开始</h2>
+      <p>我的四化：每一化都是一条路</p>
     </div>
-    <div class="chart-card">
-      <div id="chart-cognition" class="chart"></div>
-      <p class="chart-note">* 演示数据，仅展示效果，后续将接入真实数据</p>
+
+    <div class="tag-grid">
+      <div class="tag-card">
+        <span class="tag-char">禄</span>
+        <span class="tag-name">寻求机会</span>
+        <p>发现那些被忽视的可能</p>
+      </div>
+      <div class="tag-card">
+        <span class="tag-char">权</span>
+        <span class="tag-name">长期积累</span>
+        <p>把时间变成你的护城河</p>
+      </div>
+      <div class="tag-card">
+        <span class="tag-char">科</span>
+        <span class="tag-name">复利效应</span>
+        <p>让每一次努力自己生长</p>
+      </div>
+      <div class="tag-card">
+        <span class="tag-char">忌</span>
+        <span class="tag-name">突破认知</span>
+        <p>打破那些理所当然</p>
+      </div>
     </div>
   </section>
 
-  <!-- 精选入口 -->
+  <!-- ===== 03 数据一览（杂志式分隔） ===== -->
   <section class="section">
     <div class="section-head">
-      <h2>🚪 从这里开始</h2>
-      <p>网站现在还是骨架，内容会一点点长出来</p>
+      <span class="sec-no">03</span>
+      <h2>数字档案</h2>
+      <p>这个网站目前的规模</p>
     </div>
-    <div class="card-grid">
-      <a href={base + "/articles"} class="card">
-        <h3>📝 文章</h3>
-        <p>公众号长文沉淀：思维模型、认知方法、决策复盘</p>
-      </a>
-      <a href={base + "/knowledge"} class="card">
-        <h3>📚 知识库</h3>
-        <p>Obsidian 笔记公开版：主题化的长期积累，带关系图谱</p>
-      </a>
-      <a href={base + "/visuals"} class="card">
-        <h3>📊 可视化</h3>
-        <p>用数据讲故事：图表集、交互探索、数据大屏</p>
-      </a>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num" id="stat-days">1</div>
+        <div class="label">持续经营（天）</div>
+      </div>
+      <div class="stat">
+        <div class="num">5</div>
+        <div class="label">内容板块</div>
+      </div>
+      <div class="stat">
+        <div class="num">1</div>
+        <div class="label">可视化作品</div>
+      </div>
+      <div class="stat">
+        <div class="num">7</div>
+        <div class="label">首页金句</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 04 最近更新（按日期分组，可滚动，点日期看日志） ===== -->
+  <section class="section">
+    <div class="section-head">
+      <span class="sec-no">04</span>
+      <h2>最近更新</h2>
+      <p>按日期整理的成长日志，鼠标悬停可滚动，点击日期展开当天详情</p>
+    </div>
+
+    <div class="timeline-wrap">
+      <ul class="timeline" id="timeline"></ul>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  /* 首页专属样式 */
+  /* ===== 品牌区 ===== */
   .hero {
-    text-align: center;
-    padding: 4rem 0 3.5rem;
+    position: relative;
+    min-height: 100vh; /* 首屏整屏：01 板块必须滚动才能浮现 */
+    padding: 5.5rem 0 12rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -180px;
+    right: -120px;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow) 0%, transparent 68%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 30% 40%, black 15%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 30% 40%, black 15%, transparent 70%);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3.5rem;
+    align-items: center;
   }
 
   .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
     color: var(--accent);
-    font-size: 0.95rem;
-    letter-spacing: 0.15em;
-    margin-bottom: 1.2rem;
+    font-size: 0.88rem;
+    letter-spacing: 0.28em;
+    margin-bottom: 1.6rem;
+  }
+
+  .hero-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
   }
 
   .hero-title {
-    font-size: clamp(2.6rem, 8vw, 4.2rem);
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    line-height: 1.2;
-    margin-bottom: 1.2rem;
-    background: linear-gradient(120deg, #e6edf3 40%, var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: clamp(3.2rem, 9vw, 5.4rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.22;
+    margin-bottom: 2.2rem;
   }
 
-  .hero-sub {
-    color: var(--muted);
-    font-size: 1.05rem;
-    line-height: 1.9;
-    margin-bottom: 2rem;
+  .hero-title span {
+    color: var(--accent);
   }
 
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+  /* 金句引用块 */
+  .quote-box {
+    min-height: 118px;
+    max-width: 34em;
+    border-left: 2px solid var(--accent);
+    padding-left: 1.3rem;
   }
 
-  .btn {
-    padding: 0.7rem 1.8rem;
-    border-radius: 999px;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
+  /* 巨型镂空字（底部中央，完整显示） */
+  .hero-scroll {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--font-serif);
+    font-size: 128px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--gold);
+    opacity: 0.4;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    white-space: nowrap;
   }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #0a0e17;
+  .quote-line {
+    font-family: var(--font-serif);
+    font-size: 24px;
     font-weight: 600;
-  }
-
-  .btn-primary:hover {
-    filter: brightness(1.15);
-    transform: translateY(-2px);
-  }
-
-  .btn-ghost {
-    border: 1px solid var(--border);
+    letter-spacing: 0.05em;
+    line-height: 1.9;
     color: var(--text);
   }
 
-  .btn-ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-2px);
+  .q-char {
+    display: inline-block;
+    opacity: 0;
+    animation: assemble 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    will-change: transform, opacity, filter;
   }
 
+  @keyframes assemble {
+    0% {
+      opacity: 0;
+      transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.5);
+      filter: blur(6px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0) rotate(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes shatter {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) rotate(0) scale(1);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx2), var(--dy2)) rotate(var(--rot2)) scale(0.5);
+      filter: blur(6px);
+    }
+  }
+
+  /* ===== 右侧：四化印章（一个整体）+ 释义 ===== */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* 印章区域：四化背景 + 面板 */
+  .seal-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 150px;
+  }
+
+  /* 「四化」描边大字：印章面板的背景 */
+  .hero-watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 7.2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gold);
+    opacity: 0.4;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    white-space: nowrap;
+  }
+
+  /* 整体印章：单字轮换显示（同一时间只出现一个） */
+  .seal-panel {
+    position: relative;
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 4px var(--bg), inset 0 0 0 5px var(--accent);
+  }
+
+  .seal-char {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0;
+  }
+
+  /* 印章字的淡入淡出（温和切换） */
+  @keyframes seal-in {
+    from {
+      opacity: 0;
+      transform: scale(0.7);
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes seal-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.85);
+      filter: blur(4px);
+    }
+  }
+
+  /* 印章释义（跟随对应印章字联动显示） */
+  .seal-meanings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-height: 104px;
+    justify-content: center;
+  }
+
+  .seal-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .s-name {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+    width: 1.4em;
+  }
+
+  .s-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ===== 区块通用（滚动渐显） ===== */
   .section {
-    margin-top: 3.5rem;
+    margin-top: 5rem;
+  }
+
+  /* JS 可用时：区块初始隐藏，进入视口后浮现 */
+  html.js .section {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  html.js .section.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .section-head {
-    margin-bottom: 1.4rem;
+    margin-bottom: 2rem;
+  }
+
+  .sec-no {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
   }
 
   .section-head h2 {
-    font-size: 1.4rem;
-    margin-bottom: 0.3rem;
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.4rem;
   }
 
   .section-head p {
     color: var(--muted);
-    font-size: 0.92rem;
+    font-size: 0.95rem;
   }
 
-  .chart-card {
-    background: var(--bg-card);
+  /* ===== 个人资料（名片式） ===== */
+  .profile {
+    display: flex;
+    gap: 2.2rem;
+    align-items: flex-start;
+    padding: 1.2rem 0 1.2rem 1.6rem;
+    border-left: 2px solid var(--accent);
+  }
+
+  .avatar {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 2.6rem;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+  }
+
+  .profile-name {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    font-family: var(--font-serif);
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+  }
+
+  .profile-tag {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.18rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.12em;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .profile-tag:hover {
+    border-color: var(--accent);
+  }
+
+  .profile-bio {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 2;
+    margin-bottom: 1.3rem;
+    max-width: 42em;
+  }
+
+  .profile-links {
+    display: flex;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .link-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .link-item::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .link-mail {
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .link-mail:hover {
+    border-color: var(--accent);
+  }
+
+  /* ===== 数据一览（杂志式） ===== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .stat {
+    padding: 0.4rem 1.6rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .stat:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .stat .num {
+    font-size: 2.9rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+  }
+
+  .stat .label {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== 四化标签卡片 ===== */
+  .tag-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .tag-card {
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.2rem;
+    padding: 1.6rem 1.3rem;
+    background: var(--bg-card);
+    text-align: center;
+    transition: all 0.25s ease;
   }
 
-  .chart {
-    width: 100%;
-    height: 380px;
+  .tag-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-3px);
   }
 
-  .chart-note {
+  .tag-char {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .tag-name {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.08em;
+  }
+
+  .tag-card p {
+    font-size: 0.82rem;
     color: var(--muted);
-    font-size: 0.78rem;
-    text-align: right;
-    padding-top: 0.5rem;
   }
 
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.2rem;
+  /* ===== 最近更新（按日期分组 + 悬停滚动 + 点日期看详情） ===== */
+  .timeline-wrap {
+    max-height: 480px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    padding-right: 0.4rem;
+  }
+
+  .timeline-wrap::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .timeline-wrap::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+  }
+
+  .timeline {
+    list-style: none;
+  }
+
+  .timeline li {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 1.6rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .timeline li:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline li::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .t-date {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    transition: opacity 0.2s ease;
+    text-align: left;
+  }
+
+  .t-date:hover {
+    opacity: 0.75;
+  }
+
+  .t-date::after {
+    content: "＋";
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+
+  .timeline li.open .t-date::after {
+    content: "－";
+  }
+
+  .t-title {
+    color: var(--text);
+    font-size: 1rem;
+    margin-top: 0.35rem;
+    font-weight: 500;
+  }
+
+  .t-detail {
+    display: none;
+    margin-top: 0.7rem;
+    padding: 1rem 1.2rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+
+  .timeline li.open .t-detail {
+    display: block;
+    animation: fade-in 0.35s ease;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 720px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-right {
+      display: none;
+    }
+
+    /* 巨型镂空字移动端缩小 */
+    .hero-scroll {
+      font-size: 64px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero {
+      padding-bottom: 8rem;
+      min-height: 100vh;
+    }
+
+    .hero-watermark {
+      font-size: 6rem;
+    }
+
+    .profile {
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 1.8rem;
+    }
+
+    .stat:nth-child(3) {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .tag-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>
 
 <script>
-  // 首页示例图表：认知积累曲线（ECharts）
-  import * as echarts from "echarts";
+  // ===== 金句库（只保留商陆的原创句子） =====
+  const quotes = [
+    "看一个人是否真正强大，是看他是否平静。",
+    "我大于我的情绪，这才是真正的强大。",
+    "你周遭的一切，都源于你内心的欲望。",
+    "时间是良医，也是庸医。",
+    "你只是信息的消费者，而不是信息的生产者。",
+    "输出型爱好，先痛苦再充实。",
+    "凡是选择都是双向的，因为你拥有主观能动性。",
+  ];
 
-  const chart = echarts.init(document.getElementById("chart-cognition"));
-  chart.setOption({
-    backgroundColor: "transparent",
-    tooltip: { trigger: "axis" },
-    legend: {
-      data: ["持续学习者", "停滞者"],
-      textStyle: { color: "#8b949e" },
-      top: 0,
-    },
-    grid: { left: 50, right: 30, top: 40, bottom: 40 },
-    xAxis: {
-      type: "category",
-      data: ["20岁", "25岁", "30岁", "35岁", "40岁", "45岁", "50岁", "55岁", "60岁"],
-      axisLine: { lineStyle: { color: "#2a3a5c" } },
-      axisLabel: { color: "#8b949e" },
-    },
-    yAxis: {
-      type: "value",
-      name: "认知水平",
-      nameTextStyle: { color: "#8b949e" },
-      splitLine: { lineStyle: { color: "#1a2540" } },
-      axisLabel: { color: "#8b949e" },
-    },
-    series: [
-      {
-        name: "持续学习者",
-        type: "line",
-        smooth: true,
-        data: [10, 22, 38, 55, 74, 90, 105, 118, 128],
-        lineStyle: { color: "#2dd4bf", width: 3 },
-        itemStyle: { color: "#2dd4bf" },
-        areaStyle: {
-          color: {
-            type: "linear",
-            x: 0, y: 0, x2: 0, y2: 1,
-            colorStops: [
-              { offset: 0, color: "rgba(45, 212, 191, 0.35)" },
-              { offset: 1, color: "rgba(45, 212, 191, 0.02)" },
-            ],
-          },
+  const box = document.getElementById("quote-box");
+  const lineEl = box.querySelector(".quote-line");
+  const sealChars = document.querySelectorAll(".seal-char");
+  const sealLines = document.querySelectorAll(".seal-line");
+  let qi = 0;
+  let timer = null;
+  let sealTimers = [];
+
+  // 印章轮换：同一时间只显示一个字（禄→权→科→忌，每字 1.5 秒，一轮 6 秒）
+  function startSealCycle() {
+    sealTimers.forEach(clearTimeout);
+    sealTimers = [];
+    const CYCLE = 1500; // 每字周期：淡入 0.35s + 停留 0.8s + 淡出 0.35s
+    sealChars.forEach((c, n) => {
+      const t0 = n * CYCLE;
+      sealTimers.push(
+        setTimeout(() => {
+          c.style.animation = "seal-in 0.35s ease forwards";
+        }, t0)
+      );
+      sealTimers.push(
+        setTimeout(() => {
+          c.style.animation = "seal-out 0.35s ease forwards";
+        }, t0 + 1150)
+      );
+      // 释义联动：对应行同时淡入/淡出
+      const line = sealLines[n];
+      sealTimers.push(
+        setTimeout(() => {
+          line.style.opacity = "1";
+        }, t0 + 120)
+      );
+      sealTimers.push(
+        setTimeout(() => {
+          line.style.opacity = "0";
+        }, t0 + 1150)
+      );
+    });
+  }
+
+  // 出现：金句逐字重组；印章开始轮换
+  function appear() {
+    // 金句文字（在逗号处换行）
+    lineEl.innerHTML = "";
+    [...quotes[qi]].forEach((ch, n) => {
+      const s = document.createElement("span");
+      s.className = "q-char";
+      s.textContent = ch === " " ? "\u00A0" : ch;
+      s.style.setProperty("--dx", Math.random() * 180 - 90 + "px");
+      s.style.setProperty("--dy", Math.random() * 140 - 70 + "px");
+      s.style.setProperty("--rot", Math.random() * 80 - 40 + "deg");
+      s.style.animationDelay = n * 0.03 + "s";
+      lineEl.appendChild(s);
+      // 逗号后换行
+      if (ch === "，") {
+        lineEl.appendChild(document.createElement("br"));
+      }
+    });
+
+    // 印章四字轮换开始
+    startSealCycle();
+
+    // 停留 6 秒后一起破碎消失
+    clearTimeout(timer);
+    timer = setTimeout(() => disappear(), 6000);
+  }
+
+  // 消失：金句破碎；印章停掉轮换并复位
+  function disappear() {
+    lineEl.querySelectorAll(".q-char").forEach((s) => {
+      s.style.setProperty("--dx2", Math.random() * 220 - 110 + "px");
+      s.style.setProperty("--dy2", Math.random() * 180 - 90 + "px");
+      s.style.setProperty("--rot2", Math.random() * 120 - 60 + "deg");
+      s.style.animation = "shatter 0.7s ease forwards";
+    });
+    // 印章停止轮换，复位为隐藏
+    sealTimers.forEach(clearTimeout);
+    sealTimers = [];
+    sealChars.forEach((c) => {
+      c.style.animation = "none";
+      c.style.opacity = "0";
+    });
+    sealLines.forEach((l) => {
+      l.style.opacity = "0";
+    });
+
+    setTimeout(() => {
+      qi = (qi + 1) % quotes.length;
+      appear();
+    }, 800);
+  }
+
+  appear();
+
+  // ===== 滚动渐显：区块进入视口时逐渐浮现 =====
+  const sections = document.querySelectorAll(".section");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    sections.forEach((s) => io.observe(s));
+  } else {
+    // 不支持时直接全部显示
+    sections.forEach((s) => s.classList.add("visible"));
+  }
+
+  // ===== 持续经营天数：从上线日（2026-08-25）算起 =====
+  const launch = new Date("2026-08-25T00:00:00+08:00");
+  const days = Math.max(
+    1,
+    Math.floor((Date.now() - launch.getTime()) / 86400000) + 1
+  );
+  document.getElementById("stat-days").textContent = String(days);
+
+  // ===== 最近更新：按日期分组渲染 =====
+  const updates = [
+    {
+      date: "2026-08-26",
+      items: [
+        {
+          title: "品牌升级：商陆有四化",
+          detail:
+            "全站品牌名从「商陆也有禄」更新为「商陆有四化」，导航、标题、页脚同步修改。首页新增四化印章标志与释义：禄为寻求机会、权为长期积累、科为复利效应、忌为突破认知；个人资料区新增四个对应标签。",
         },
-      },
-      {
-        name: "停滞者",
-        type: "line",
-        smooth: true,
-        data: [10, 13, 15, 16, 17, 17, 18, 18, 18],
-        lineStyle: { color: "#5b6b8c", width: 2, type: "dashed" },
-        itemStyle: { color: "#5b6b8c" },
-      },
-    ],
-  });
+        {
+          title: "金句轮播动画上线",
+          detail:
+            "首页品牌区新增金句轮播：从个人笔记中精选七句原创句子，每个字以破碎重组的方式进场，停留七秒后同步散开进入下一句，作者名与印章释义随文字同频出现和消失。",
+        },
+        {
+          title: "设计改版：宋体排版与留白风",
+          detail:
+            "标题字体更换为思源宋体，正文保持黑体；布局从居中改为非对称双栏；新增全页噪点纹理、区块编号、杂志式数据展示；首页入口卡片重构为四化标签卡片。",
+        },
+        {
+          title: "暗色模式上线",
+          detail:
+            "新增亮暗双主题切换按钮，偏好自动记忆并跟随系统；导航、卡片、装饰、图表全部适配暗色调。",
+        },
+      ],
+    },
+    {
+      date: "2026-08-25",
+      items: [
+        {
+          title: "网站正式上线",
+          detail:
+            "完成 GitHub 仓库创建与自动部署链路配置，网站发布至公网，五个板块全部可访问；修复了线上导航链接 404 的问题。",
+        },
+        {
+          title: "页面骨架搭建",
+          detail:
+            "确定首页、文章、知识库、可视化、关于我五个板块结构；创建统一布局、导航与页脚；首页加入认知积累曲线示例图表。",
+        },
+        {
+          title: "项目启动与环境搭建",
+          detail:
+            "确定长期技术方案：以 Obsidian 为内容源，Astro 构建网站，ECharts 做可视化，免费托管上线；完成开发环境准备并创建项目，跑通本地预览。",
+        },
+      ],
+    },
+  ];
 
-  // 窗口变化时自适应
-  window.addEventListener("resize", () => chart.resize());
+  const timeline = document.getElementById("timeline");
+
+  updates.forEach((group) => {
+    group.items.forEach((item, i) => {
+      const li = document.createElement("li");
+
+      // 日期按钮（同一日期的第一条显示日期，后续条目缩进）
+      const btn = document.createElement("button");
+      btn.className = "t-date";
+      btn.textContent = i === 0 ? group.date : "·";
+      btn.title = group.date + " 的更新日志";
+
+      const title = document.createElement("p");
+      title.className = "t-title";
+      title.textContent = item.title;
+
+      const detail = document.createElement("div");
+      detail.className = "t-detail";
+      const dp = document.createElement("p");
+      dp.textContent = item.detail;
+      detail.appendChild(dp);
+
+      // 点击日期：展开/收起当天日志
+      btn.addEventListener("click", () => {
+        // 同一日期的条目共享展开状态
+        const sameDay = timeline.querySelectorAll("li");
+        const siblings = Array.from(sameDay).filter(
+          (el) => el.dataset.day === group.date
+        );
+        const willOpen = !li.classList.contains("open");
+        siblings.forEach((el) => el.classList.toggle("open", willOpen));
+      });
+
+      li.dataset.day = group.date;
+      li.appendChild(btn);
+      li.appendChild(title);
+      li.appendChild(detail);
+      timeline.appendChild(li);
+    });
+  });
 </script>

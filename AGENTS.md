@@ -24,6 +24,7 @@
 - [x] **已部署上线**：https://chen-master-zw.github.io/shanglu-site/（GitHub Actions 自动部署，push main 即发布）
 - [ ] 内容填充（文章从公众号搬入、知识库整理）
 - [ ] 真实可视化作品（ECharts 交互）
+- [ ] 「忌」专属页面（商陆 2026-08-26 定：突破认知专题区；导航已预留建设中占位）
 - [ ] 关于我放公众号二维码
 - [ ] GitHub 部署上线
 
