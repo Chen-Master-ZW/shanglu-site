@@ -58,9 +58,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 </BaseLayout>
 
 <style>
-  /* 板块大字标识：科（128px） */
+  /* 板块大字标识：科（98px） */
   .page-head .sec-no {
-    font-size: 128px;
+    font-size: 98px;
     font-family: var(--font-serif);
     font-weight: 700;
     line-height: 1.1;
@@ -96,16 +96,3 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     gap: 1.1rem;
   }
 </style>
-
-<script>
-  // 「科」大字宽度与下方标题「复利效应」对齐（等宽）
-  const mark = document.querySelector(".page-head .sec-no");
-  const title = document.querySelector(".page-head h1");
-  function fitMark() {
-    if (mark && title) {
-      mark.style.fontSize = title.offsetWidth + "px";
-    }
-  }
-  fitMark();
-  window.addEventListener("resize", fitMark);
-</script>
