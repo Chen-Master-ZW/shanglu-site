@@ -1,16 +1,86 @@
 ---
-// 文章板块：公众号长文沉淀
+// 禄 · 寻求机会：四化专属板块（文章）
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<BaseLayout title="文章 —— 商陆也有禄">
+<BaseLayout title="禄 · 寻求机会 —— 商陆有四化">
   <div class="page-head">
-    <h1>文章</h1>
-    <p>公众号长文沉淀：思维模型、认知方法、决策复盘。文章会按主题分类归档。</p>
+    <span class="sec-no">禄</span>
+    <h1>寻求机会</h1>
+    <p>发现那些被忽视的可能——机会藏在细节与思考里</p>
   </div>
 
+  <!-- 定位说明 -->
+  <section class="intro">
+    <p>
+      紫微斗数里，「禄」是四化之一，代表财禄、人缘与机会的馈赠。
+      在这里，「禄」是我的第一化：<strong>主动发现那些被忽视的可能</strong>。
+    </p>
+    <p>
+      这个板块收录我的文章——公众号长文的沉淀地：思维模型、认知方法、决策复盘，
+      记录那些「原来可以这样想」的时刻。
+    </p>
+  </section>
+
+  <!-- 主题方向 -->
+  <section class="section">
+    <div class="section-head">
+      <h2>这里将收录</h2>
+      <p>文章的四个主题方向，内容会慢慢长出来</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>思维模型</h3>
+        <p>复利、概率、第一性原理——可迁移的思考工具</p>
+      </div>
+      <div class="card">
+        <h3>认知方法</h3>
+        <p>信息如何变成知识，知识如何变成决策</p>
+      </div>
+      <div class="card">
+        <h3>决策复盘</h3>
+        <p>真实的选择与结果，回看时的教训</p>
+      </div>
+      <div class="card">
+        <h3>成长记录</h3>
+        <p>一个普通人的积累之路，不粉饰的样本</p>
+      </div>
+    </div>
+  </section>
+
   <div class="placeholder">
-    <p>🚧 文章正在从公众号搬进来</p>
-    <p style="margin-top: 0.5rem;">第一篇文章即将上线：《你懂很多道理，却做不好一个决策》</p>
+    <p>🚧 第一篇文章即将上线</p>
+    <p style="margin-top: 0.5rem;">《你懂很多道理，却做不好一个决策》</p>
   </div>
 </BaseLayout>
+
+<style>
+  .intro {
+    padding: 1.2rem 0 1.2rem 1.6rem;
+    border-left: 2px solid var(--accent);
+    max-width: 42em;
+  }
+
+  .intro p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 2.05;
+  }
+
+  .intro p + p {
+    margin-top: 0.8rem;
+  }
+
+  .intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.1rem;
+  }
+</style>

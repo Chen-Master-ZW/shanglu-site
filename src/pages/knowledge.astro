@@ -1,16 +1,86 @@
 ---
-// 知识库板块：Obsidian 笔记公开版
+// 权 · 长期积累：四化专属板块（知识库）
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<BaseLayout title="知识库 —— 商陆也有禄">
+<BaseLayout title="权 · 长期积累 —— 商陆有四化">
   <div class="page-head">
-    <h1>知识库</h1>
-    <p>来自 Obsidian 的长期积累：按主题组织的笔记，支持双链与关系图谱。</p>
+    <span class="sec-no">权</span>
+    <h1>长期积累</h1>
+    <p>把时间变成你的护城河——日拱一卒，功不唐捐</p>
   </div>
+
+  <!-- 定位说明 -->
+  <section class="intro">
+    <p>
+      紫微斗数里，「权」是四化之一，代表权势、能力与担当。
+      在这里，「权」是我的第二化：<strong>把时间变成复利，日拱一卒</strong>。
+    </p>
+    <p>
+      这个板块是 Obsidian 笔记的公开版：按主题组织的知识，来自长期阅读、思考与
+      实践的沉淀——它们不追求速成，只相信积累。
+    </p>
+  </section>
+
+  <!-- 主题方向 -->
+  <section class="section">
+    <div class="section-head">
+      <h2>这里将收录</h2>
+      <p>知识库的四个主题方向，笔记会慢慢长出来</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h3>认知模型</h3>
+        <p>理解世界的基础框架，一页一页的索引</p>
+      </div>
+      <div class="card">
+        <h3>决策方法</h3>
+        <p>把思考固化成流程，关键时刻用得上</p>
+      </div>
+      <div class="card">
+        <h3>读书笔记</h3>
+        <p>读过的书，留下的结构与洞见</p>
+      </div>
+      <div class="card">
+        <h3>学习笔记</h3>
+        <p>正在学的东西，公开的记录</p>
+      </div>
+    </div>
+  </section>
 
   <div class="placeholder">
     <p>🚧 知识库正在整理中</p>
-    <p style="margin-top: 0.5rem;">规划中的主题：认知模型 · 决策方法 · 读书笔记 · 学习笔记</p>
+    <p style="margin-top: 0.5rem;">主题：认知模型 · 决策方法 · 读书笔记 · 学习笔记</p>
   </div>
 </BaseLayout>
+
+<style>
+  .intro {
+    padding: 1.2rem 0 1.2rem 1.6rem;
+    border-left: 2px solid var(--accent);
+    max-width: 42em;
+  }
+
+  .intro p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 2.05;
+  }
+
+  .intro p + p {
+    margin-top: 0.8rem;
+  }
+
+  .intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.1rem;
+  }
+</style>
