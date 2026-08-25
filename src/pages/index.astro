@@ -1,9 +1,20 @@
 ---
-// 首页：品牌 hero（四化印章 + 金句轮播）+ 个人资料 + 数据一览 + 四化标签 + 最近更新
+// 首页：品牌 hero（四化印章 + 金句轮播）+ 个人资料 + 四化标签 + 数字档案 + 更新日志索引
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
 // 站点基础路径（部署时是 /shanglu-site/，本地开发是空）
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// 更新日志：从 Markdown 内容集合读取（只取日期索引）
+const updates = (await getCollection("updates")).sort(
+  (a, b) => b.data.date - a.data.date
+);
+
+// 日期格式化：YYYY-MM-DD
+function fmtDate(d) {
+  return d.toISOString().slice(0, 10);
+}
 ---
 
 <BaseLayout title="商陆有四化 —— 普通人如何在当下社会里快速积累认知">
@@ -141,17 +152,34 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     </div>
   </section>
 
-  <!-- ===== 04 最近更新（按日期分组，可滚动，点日期看日志） ===== -->
+  <!-- ===== 04 更新日志（只保留日期索引，内容在日志页） ===== -->
   <section class="section">
     <div class="section-head">
       <span class="sec-no">04</span>
-      <h2>最近更新</h2>
-      <p>按日期整理的成长日志，鼠标悬停可滚动，点击日期展开当天详情</p>
+      <h2>更新日志</h2>
+      <p>点击日期查看当天的完整日志</p>
     </div>
 
     <div class="timeline-wrap">
-      <ul class="timeline" id="timeline"></ul>
+      <ul class="timeline">
+        {
+          updates.map((u) => (
+            <li>
+              <a
+                class="t-date"
+                href={base + "/updates#" + u.id}
+              >
+                {fmtDate(u.data.date)}
+              </a>
+              <span class="t-count">{u.data.count ?? 0} 条更新</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
+    <p class="timeline-more">
+      <a href={base + "/updates"}>查看完整更新日志 →</a>
+    </p>
   </section>
 </BaseLayout>
 
@@ -635,9 +663,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     color: var(--muted);
   }
 
-  /* ===== 最近更新（按日期分组 + 悬停滚动 + 点日期看详情） ===== */
+  /* ===== 更新日志索引（只显示日期） ===== */
   .timeline-wrap {
-    max-height: 480px;
+    max-height: 320px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
@@ -660,7 +688,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   .timeline li {
     position: relative;
     padding-left: 2rem;
-    padding-bottom: 1.6rem;
+    padding-bottom: 1.5rem;
     border-left: 1px solid var(--border);
   }
 
@@ -672,7 +700,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     content: "";
     position: absolute;
     left: -5px;
-    top: 6px;
+    top: 7px;
     width: 9px;
     height: 9px;
     border-radius: 50%;
@@ -681,67 +709,40 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   }
 
   .t-date {
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     color: var(--accent);
-    transition: opacity 0.2s ease;
-    text-align: left;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
   }
 
   .t-date:hover {
-    opacity: 0.75;
+    border-color: var(--accent);
   }
 
-  .t-date::after {
-    content: "＋";
-    margin-left: 0.5rem;
-    font-size: 0.75rem;
-    opacity: 0.6;
-  }
-
-  .timeline li.open .t-date::after {
-    content: "－";
-  }
-
-  .t-title {
-    color: var(--text);
-    font-size: 1rem;
-    margin-top: 0.35rem;
-    font-weight: 500;
-  }
-
-  .t-detail {
-    display: none;
-    margin-top: 0.7rem;
-    padding: 1rem 1.2rem;
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 0.9rem;
+  .t-count {
+    margin-left: 0.8rem;
+    font-size: 0.85rem;
     color: var(--muted);
-    line-height: 1.9;
+    letter-spacing: 0.05em;
   }
 
-  .timeline li.open .t-detail {
-    display: block;
-    animation: fade-in 0.35s ease;
+  .timeline-more {
+    margin-top: 1.4rem;
+    font-size: 0.92rem;
   }
 
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .timeline-more a {
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .timeline-more a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
   /* ===== 响应式 ===== */
@@ -923,94 +924,4 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     Math.floor((Date.now() - launch.getTime()) / 86400000) + 1
   );
   document.getElementById("stat-days").textContent = String(days);
-
-  // ===== 最近更新：按日期分组渲染 =====
-  const updates = [
-    {
-      date: "2026-08-26",
-      items: [
-        {
-          title: "品牌升级：商陆有四化",
-          detail:
-            "全站品牌名从「商陆也有禄」更新为「商陆有四化」，导航、标题、页脚同步修改。首页新增四化印章标志与释义：禄为寻求机会、权为长期积累、科为复利效应、忌为突破认知；个人资料区新增四个对应标签。",
-        },
-        {
-          title: "金句轮播动画上线",
-          detail:
-            "首页品牌区新增金句轮播：从个人笔记中精选七句原创句子，每个字以破碎重组的方式进场，停留七秒后同步散开进入下一句，作者名与印章释义随文字同频出现和消失。",
-        },
-        {
-          title: "设计改版：宋体排版与留白风",
-          detail:
-            "标题字体更换为思源宋体，正文保持黑体；布局从居中改为非对称双栏；新增全页噪点纹理、区块编号、杂志式数据展示；首页入口卡片重构为四化标签卡片。",
-        },
-        {
-          title: "暗色模式上线",
-          detail:
-            "新增亮暗双主题切换按钮，偏好自动记忆并跟随系统；导航、卡片、装饰、图表全部适配暗色调。",
-        },
-      ],
-    },
-    {
-      date: "2026-08-25",
-      items: [
-        {
-          title: "网站正式上线",
-          detail:
-            "完成 GitHub 仓库创建与自动部署链路配置，网站发布至公网，五个板块全部可访问；修复了线上导航链接 404 的问题。",
-        },
-        {
-          title: "页面骨架搭建",
-          detail:
-            "确定首页、文章、知识库、可视化、关于我五个板块结构；创建统一布局、导航与页脚；首页加入认知积累曲线示例图表。",
-        },
-        {
-          title: "项目启动与环境搭建",
-          detail:
-            "确定长期技术方案：以 Obsidian 为内容源，Astro 构建网站，ECharts 做可视化，免费托管上线；完成开发环境准备并创建项目，跑通本地预览。",
-        },
-      ],
-    },
-  ];
-
-  const timeline = document.getElementById("timeline");
-
-  updates.forEach((group) => {
-    group.items.forEach((item, i) => {
-      const li = document.createElement("li");
-
-      // 日期按钮（同一日期的第一条显示日期，后续条目缩进）
-      const btn = document.createElement("button");
-      btn.className = "t-date";
-      btn.textContent = i === 0 ? group.date : "·";
-      btn.title = group.date + " 的更新日志";
-
-      const title = document.createElement("p");
-      title.className = "t-title";
-      title.textContent = item.title;
-
-      const detail = document.createElement("div");
-      detail.className = "t-detail";
-      const dp = document.createElement("p");
-      dp.textContent = item.detail;
-      detail.appendChild(dp);
-
-      // 点击日期：展开/收起当天日志
-      btn.addEventListener("click", () => {
-        // 同一日期的条目共享展开状态
-        const sameDay = timeline.querySelectorAll("li");
-        const siblings = Array.from(sameDay).filter(
-          (el) => el.dataset.day === group.date
-        );
-        const willOpen = !li.classList.contains("open");
-        siblings.forEach((el) => el.classList.toggle("open", willOpen));
-      });
-
-      li.dataset.day = group.date;
-      li.appendChild(btn);
-      li.appendChild(title);
-      li.appendChild(detail);
-      timeline.appendChild(li);
-    });
-  });
 </script>

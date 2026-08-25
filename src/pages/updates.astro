@@ -1,0 +1,132 @@
+---
+// 更新日志页：按日期归档的完整日志（内容来自 Markdown 集合）
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// 读取并按日期倒序
+const updates = (await getCollection("updates")).sort(
+  (a, b) => b.data.date - a.data.date
+);
+
+// 渲染每个 Markdown 内容
+const rendered = await Promise.all(
+  updates.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  }))
+);
+
+function fmtDate(d) {
+  return d.toISOString().slice(0, 10);
+}
+---
+
+<BaseLayout title="更新日志 —— 商陆有四化">
+  <div class="page-head">
+    <h1>更新日志</h1>
+    <p>这个网站的成长记录，按日期归档，向下滚动查看</p>
+  </div>
+
+  <div class="log-list">
+    {
+      rendered.map(({ entry, Content }) => (
+        <section class="log-day" id={entry.id}>
+          <div class="log-date">{fmtDate(entry.data.date)}</div>
+          <div class="log-body">
+            <h2 class="log-title">{entry.data.title}</h2>
+            <Content />
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <p class="log-back">
+    <a href={base + "/"}>← 返回首页</a>
+  </p>
+</BaseLayout>
+
+<style>
+  /* 日志页样式：时间线式按日归档 */
+  .log-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .log-day {
+    position: relative;
+    padding-left: 2.2rem;
+    padding-bottom: 3.5rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .log-day:last-child {
+    padding-bottom: 1rem;
+  }
+
+  .log-day::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 5px var(--accent-soft);
+  }
+
+  .log-date {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+
+  .log-body h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 1.4rem 0 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .log-body h2:first-child {
+    margin-top: 0;
+  }
+
+  .log-body p {
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.95;
+    margin-bottom: 0.4rem;
+  }
+
+  .log-back {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .log-back a {
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .log-back a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* 日志标题（frontmatter title）样式化 */
+  .log-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    margin-bottom: 1rem !important;
+    letter-spacing: 0.03em;
+  }
+</style>
