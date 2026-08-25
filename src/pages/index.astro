@@ -101,26 +101,26 @@ function fmtDate(d) {
     </div>
 
     <div class="tag-grid">
-      <div class="tag-card">
+      <a href={base + "/articles"} class="tag-card">
         <span class="tag-char">禄</span>
         <span class="tag-name">寻求机会</span>
         <p>发现那些被忽视的可能</p>
-      </div>
-      <div class="tag-card">
+      </a>
+      <a href={base + "/knowledge"} class="tag-card">
         <span class="tag-char">权</span>
         <span class="tag-name">长期积累</span>
         <p>把时间变成你的护城河</p>
-      </div>
-      <div class="tag-card">
+      </a>
+      <a href={base + "/visuals"} class="tag-card">
         <span class="tag-char">科</span>
         <span class="tag-name">复利效应</span>
         <p>让每一次努力自己生长</p>
-      </div>
-      <div class="tag-card">
+      </a>
+      <a href={base + "/ji"} class="tag-card">
         <span class="tag-char">忌</span>
         <span class="tag-name">突破认知</span>
         <p>打破那些理所当然</p>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -625,6 +625,7 @@ function fmtDate(d) {
   }
 
   .tag-card {
+    display: block;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.6rem 1.3rem;

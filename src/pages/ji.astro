@@ -1,0 +1,86 @@
+---
+// 忌 · 突破认知：四化专属板块
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<BaseLayout title="忌 · 突破认知 —— 商陆有四化">
+  <div class="page-head">
+    <span class="sec-no">忌</span>
+    <h1>突破认知</h1>
+    <p>打破那些理所当然——认知的边界，是用来被越过的</p>
+  </div>
+
+  <!-- 定位说明 -->
+  <section class="ji-intro">
+    <p>
+      紫微斗数里，「忌」是四化之一，代表执着、考验与最深的功课。
+      在这里，「忌」是我的第四化：<strong>主动打破认知的惯性</strong>。
+    </p>
+    <p>
+      这个板块收录关于「认知突破」的思考——那些让我重新理解世界的瞬间，
+      那些被验证过、也被推翻过的想法，以及打破「理所当然」的具体方法。
+    </p>
+  </section>
+
+  <!-- 主题方向 -->
+  <section class="section">
+    <div class="section-head">
+      <h2>这里将收录</h2>
+      <p>四个主题方向，内容会慢慢长出来</p>
+    </div>
+    <div class="ji-grid">
+      <div class="card">
+        <h3>反常识思考</h3>
+        <p>那些与直觉相反、却经得起推敲的真相</p>
+      </div>
+      <div class="card">
+        <h3>认知偏误</h3>
+        <p>大脑的系统性漏洞：我们如何骗自己</p>
+      </div>
+      <div class="card">
+        <h3>思维重构</h3>
+        <p>换一个框架看问题，答案往往跟着换</p>
+      </div>
+      <div class="card">
+        <h3>观念翻新</h3>
+        <p>记录那些「原来我一直想错了」的时刻</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="placeholder">
+    <p>🚧 第一批「突破认知」内容正在整理中</p>
+    <p style="margin-top: 0.5rem;">第一篇将来自个人笔记：关于「主体性」的思考</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .ji-intro {
+    padding: 1.2rem 0 1.2rem 1.6rem;
+    border-left: 2px solid var(--accent);
+    max-width: 42em;
+  }
+
+  .ji-intro p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 2.05;
+  }
+
+  .ji-intro p + p {
+    margin-top: 0.8rem;
+  }
+
+  .ji-intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .ji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.1rem;
+  }
+</style>
