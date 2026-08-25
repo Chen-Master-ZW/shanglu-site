@@ -1,0 +1,31 @@
+---
+// 顶部导航组件：全站五个板块，当前页高亮
+const nav = [
+  { href: "/", label: "首页" },
+  { href: "/articles", label: "文章" },
+  { href: "/knowledge", label: "知识库" },
+  { href: "/visuals", label: "可视化" },
+  { href: "/about", label: "关于我" },
+];
+
+// 当前路径，用于高亮导航
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">商陆<span>也有禄</span></a>
+    <nav>
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={["nav-link", { active: current === item.href }]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
