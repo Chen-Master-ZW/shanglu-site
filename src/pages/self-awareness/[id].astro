@@ -1,0 +1,534 @@
+---
+// 十二宫详情页：/self-awareness/01 … /self-awareness/12
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { palaces } from "../../data/palaces";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+export function getStaticPaths() {
+  return palaces.map((p) => ({
+    params: { id: p.no },
+    props: { p },
+  }));
+}
+
+const { p } = Astro.props;
+
+// 01 命宫 · 灵魂：分步内容（一次一部分，按钮翻页 + 字从四面八方飞入/飞散）
+// c 为行样式：t-big 宋体大字 / t-note 小注 / t-turn 强调 / t-final 收束大字
+const soulParts = [
+  {
+    kicker: "起点",
+    rows: [
+      { t: "在进入这一站之前，先把理性放一放" },
+      { t: "这一站，我们只谈——<em>灵魂</em>" },
+      { t: "这里没有标准答案，只有你对自己诚实的程度", c: "t-note" },
+    ],
+  },
+  {
+    kicker: "关于存在的四句话",
+    rows: [
+      { t: "我说，我存在于这个世界上——<em>直觉</em>", c: "t-big" },
+      { t: "我说，你们存在于这个世界上——<em>理性</em>", c: "t-big" },
+      { t: "我说，灵魂存在于我的身体里——<em>理性</em>", c: "t-big" },
+      { t: "我说，灵魂存在于你们的身体里——<em>直觉</em>", c: "t-big" },
+      { t: "你发现了吗——四句话里，「我」始终是主语", c: "t-note" },
+    ],
+  },
+  {
+    kicker: "两种「我」",
+    rows: [
+      { t: "<em>我与他</em>——我把你变成了工具：点饭、问路、坐车" },
+      { t: "<em>我与你</em>——我遇见纯粹的你：心动，和脱口而出的「我爱你」" },
+      { t: "工具可以被替代，但「你」只有一个", c: "t-note" },
+      { t: "只有「我与你」在场时，灵魂才真正在场", c: "t-turn" },
+    ],
+  },
+  {
+    kicker: "转折",
+    rows: [
+      { t: "我证明我的灵魂，我证明我的存在——", c: "t-big" },
+      { t: "可谈及他人时，我被剔除了", c: "t-big" },
+      { t: "原来证明灵魂存在的方式，是去爱具体的人", c: "t-note" },
+      { t: "你们的存在，是我灵魂的证明", c: "t-turn" },
+    ],
+  },
+  {
+    kicker: "王阳明 · 东方",
+    rows: [
+      { t: "人心一点灵明，是天地万物的感应中枢" },
+      { t: "王阳明说，心外无物——万物都在你的感应里", c: "t-note" },
+      { t: "生死，不过是气的往来——昼夜，便是生死" },
+      { t: "心即理：个体消亡后，良知回归大地，与万物同体" },
+      {
+        t: "灵魂不是不朽的实体，而是宇宙气化的暂存态——在聚散中转化，而非消亡",
+        c: "t-turn",
+      },
+    ],
+  },
+  {
+    kicker: "尼采 · 西方",
+    rows: [
+      { t: "上帝已死——信仰不再纯粹，神沦为安慰剂" },
+      { t: "人要走过三个阶段：" },
+      { t: "<em>骆驼</em>——别人说什么，我就做什么" },
+      { t: "<em>狮子</em>——我想做什么，就做什么" },
+      { t: "<em>婴孩</em>——我是……" },
+      { t: "骆驼背负规则，狮子打破规则，婴孩创造规则", c: "t-note" },
+      { t: "灵魂越是纯洁，人越是完整", c: "t-turn" },
+    ],
+  },
+  {
+    kicker: "终点",
+    rows: [
+      { t: "东西方绕了很远，最后都指向同一件事——", c: "t-big" },
+      { t: "所有的路，都是回家的路", c: "t-note" },
+      { t: "我与我们", c: "t-final" },
+    ],
+  },
+];
+---
+
+<BaseLayout title={`${p.name} · ${p.hover} —— 自我觉察：十二之旅`}>
+  <div class="page-head">
+    <span class="sec-no">十二宫 · {p.no} / 12</span>
+    <h1>
+      {p.name}
+      <span class="h-alt">· {p.hover}</span>
+    </h1>
+  </div>
+
+  {p.no === "01" ? (
+    <div class="player">
+      <button id="btn-prev" class="nav-btn" aria-label="上一部分">←</button>
+
+      <div class="soul">
+        <!-- 分步内容：一次只显示当前 part -->
+        {soulParts.map((part, pi) => (
+          <div class="part">
+            <p class="t-kicker">
+              <span class="k-no">{String(pi + 1).padStart(2, "0")}</span>
+              {part.kicker}
+            </p>
+            {part.rows.map((row) => (
+              <p class={"t-line" + (row.c ? " " + row.c : "")} set:html={row.t} />
+            ))}
+          </div>
+        ))}
+
+        <!-- 进度指示 -->
+        <p class="t-progress"><span id="part-no">1</span> / {soulParts.length}</p>
+      </div>
+
+      <button id="btn-next" class="nav-btn" aria-label="下一部分">→</button>
+    </div>
+  ) : (
+    <>
+      <section class="p-intro">
+        <p>
+          在紫微斗数里，{p.name}对应人生中「<strong>{p.hover}</strong>」这个主题。
+          这一站要问的问题很简单，也很难回答——
+        </p>
+        <p class="p-q-big">{p.q}</p>
+      </section>
+
+      <div class="placeholder">
+        <p>🚧 「{p.hover}」主题的内容正在整理中</p>
+        <p style="margin-top: 0.5rem;">每一站，都会慢慢长出属于它的思考。</p>
+      </div>
+
+      <nav class="p-nav">
+        <a href={base + "/self-awareness"}>← 返回十二之旅</a>
+      </nav>
+    </>
+  )}
+</BaseLayout>
+
+<style>
+  /* 页头小标 */
+  .page-head .sec-no {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* 标题中的主题词（accent 色） */
+  .h-alt {
+    color: var(--accent);
+    font-size: 0.72em;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== 播放器：按钮在内容左右两侧 ===== */
+  .player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.4rem;
+  }
+
+  /* 翻页按钮：accent 描边圆，明显可见 */
+  .nav-btn {
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    background: var(--bg-card);
+    color: var(--accent);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: var(--shadow);
+  }
+
+  .nav-btn:hover {
+    background: var(--accent);
+    color: #ffffff;
+    transform: scale(1.08);
+  }
+
+  /* ===== 01 灵魂页：分步播放器（文字居中） ===== */
+  .soul {
+    position: relative;
+    flex: 1;
+    max-width: 44em;
+    min-height: 46vh;
+    text-align: center;
+  }
+
+  /* 每部分：默认隐藏，active 显示 */
+  .part {
+    display: none;
+  }
+
+  .part.active {
+    display: block;
+  }
+
+  /* 部分小标（编号 + 标题，居中） */
+  .t-kicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-bottom: 3.2rem;
+    font-size: 29px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+  }
+
+  .k-no {
+    font-size: 35px;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    font-weight: 700;
+    font-family: var(--font-serif);
+  }
+
+  /* 行 */
+  .t-line {
+    margin-bottom: 2.6rem;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .t-line em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .t-big {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .t-note {}
+
+  /* 强调句：居中 + 上下细线（白色，其余句子灰色） */
+  .t-turn {
+    margin: 2.4rem auto;
+    padding: 1.6rem 0;
+    max-width: 24em;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  /* 收束句：颜色保持 accent */
+  .t-final {
+    margin-top: 2rem;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    line-height: 1.4;
+  }
+
+  /* 进度指示 */
+  .t-progress {
+    margin-top: 3.6rem;
+    text-align: center;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* ===== 文字动画：四面八方飞入组合，离开倒放飞散 ===== */
+  .t-line .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rot, 0deg)) scale(0.4);
+    filter: blur(6px);
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+      filter 0.55s ease;
+    transition-delay: calc(var(--ld, 0s) + var(--d, 0s));
+  }
+
+  .t-line.show .w {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .t-line.hide .w {
+    opacity: 0;
+    transform: translate(var(--dx2, 0px), var(--dy2, 0px)) rotate(var(--rot2, 0deg)) scale(0.4);
+    filter: blur(6px);
+  }
+
+  /* ===== 其他宫（占位页）样式 ===== */
+  .p-intro {
+    padding: 1.2rem 0 1.2rem 1.6rem;
+    border-left: 2px solid var(--accent);
+    max-width: 42em;
+  }
+
+  .p-intro p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 2.05;
+  }
+
+  .p-intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .p-q-big {
+    margin-top: 1rem;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .p-nav {
+    margin-top: 2.2rem;
+    text-align: center;
+    font-size: 0.92rem;
+  }
+
+  .p-nav a {
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .p-nav a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ===== 响应式（移动端：按钮固定底部、字号适配） ===== */
+  @media (max-width: 720px) {
+    .player {
+      display: block;
+    }
+
+    .nav-btn {
+      position: fixed;
+      bottom: 1.2rem;
+      width: 58px;
+      height: 58px;
+      font-size: 18px;
+      z-index: 60;
+    }
+
+    .nav-btn:first-child {
+      left: 1rem;
+    }
+
+    .nav-btn:last-child {
+      right: 1rem;
+    }
+
+    .t-kicker {
+      font-size: 19px;
+      margin-bottom: 2.4rem;
+    }
+
+    .k-no {
+      font-size: 23px;
+    }
+
+    .t-line {
+      font-size: 10px;
+      margin-bottom: 1.8rem;
+    }
+
+    .t-big {
+    }
+
+    .t-note {
+    }
+
+    .t-turn {
+      padding: 1.2rem 0;
+    }
+
+    .t-progress {
+      font-size: 13px;
+      margin-top: 2.6rem;
+    }
+
+    .soul {
+      min-height: 38vh;
+    }
+  }
+</style>
+
+<style is:global>
+  /* ===== 文字动画（is:global：作用于 JS 动态创建的 .w 字节点） ===== */
+  .t-line .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rot, 0deg)) scale(0.4);
+    filter: blur(6px);
+    transition:
+      opacity 0.55s ease,
+      transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+      filter 0.55s ease;
+    transition-delay: calc(var(--ld, 0s) + var(--d, 0s));
+  }
+
+  .t-line.show .w {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .t-line.hide .w {
+    opacity: 0;
+    transform: translate(var(--dx2, 0px), var(--dy2, 0px)) rotate(var(--rot2, 0deg)) scale(0.4);
+    filter: blur(6px);
+  }
+</style>
+
+<script>
+  // 分步播放器：一次显示一部分，循环翻页
+  // 进入：每个字从四面八方随机位置飞入组合；离开：字飞散消失后切页
+  const parts = document.querySelectorAll(".part");
+  if (parts.length) {
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+    const partNo = document.getElementById("part-no");
+    const total = parts.length;
+    let idx = 0;
+    let animating = false;
+
+    const rand = (m) => Math.random() * m * 2 - m;
+
+    // 把行文本拆成单字 span（保留 em 高亮结构），并赋予随机飞行起点
+    const split = (el) => {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach((node) => {
+        if (!node.textContent.trim()) return;
+        const frag = document.createDocumentFragment();
+        [...node.textContent].forEach((ch, i) => {
+          const s = document.createElement("span");
+          s.className = "w";
+          s.textContent = ch === " " ? "\u00A0" : ch;
+          s.style.setProperty("--d", Math.min(i * 0.03, 1) + "s");
+          s.style.setProperty("--dx", rand(340) + "px");
+          s.style.setProperty("--dy", rand(340) + "px");
+          s.style.setProperty("--rot", rand(50) + "deg");
+          frag.appendChild(s);
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    };
+
+    // 播放当前部分：字从四面八方飞入组合
+    const playIn = (n) => {
+      const lines = parts[n].querySelectorAll(".t-line");
+      lines.forEach((l, li) => {
+        if (!l.dataset.done) {
+          split(l);
+          l.dataset.done = "1";
+        }
+        l.style.setProperty("--ld", li * 0.12 + "s");
+        l.classList.remove("hide");
+      });
+      void parts[n].offsetWidth;
+      lines.forEach((l) => l.classList.add("show"));
+    };
+
+    // 翻页：当前部分字飞散（倒放）→ 切页 → 新字飞入
+    const flyOut = (next) => {
+      if (animating) return;
+      animating = true;
+      const cur = parts[idx];
+      cur.querySelectorAll(".t-line").forEach((l) => {
+        l.querySelectorAll(".w").forEach((w) => {
+          w.style.setProperty("--dx2", rand(380) + "px");
+          w.style.setProperty("--dy2", rand(380) + "px");
+          w.style.setProperty("--rot2", rand(80) + "deg");
+        });
+        l.classList.remove("show");
+        l.classList.add("hide");
+      });
+      setTimeout(() => {
+        idx = next;
+        parts.forEach((el, i) => el.classList.toggle("active", i === next));
+        partNo.textContent = String(next + 1);
+        playIn(next);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        animating = false;
+      }, 620);
+    };
+
+    btnPrev.addEventListener("click", () => {
+      flyOut((idx - 1 + total) % total);
+    });
+    btnNext.addEventListener("click", () => {
+      flyOut((idx + 1) % total);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") flyOut((idx - 1 + total) % total);
+      if (e.key === "ArrowRight") flyOut((idx + 1) % total);
+    });
+
+    // 首屏
+    parts.forEach((el, i) => el.classList.toggle("active", i === 0));
+    partNo.textContent = "1";
+    playIn(0);
+  }
+</script>

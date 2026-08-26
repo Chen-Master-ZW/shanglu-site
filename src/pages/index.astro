@@ -92,10 +92,24 @@ function fmtDate(d) {
     </div>
   </section>
 
-  <!-- ===== 02 四化标签 ===== -->
+  <!-- ===== 02 自我觉察：十二之旅（入口卡片 → 详情页） ===== -->
   <section class="section">
     <div class="section-head">
       <span class="sec-no">02</span>
+      <h2>自我觉察：十二之旅</h2>
+      <p>用紫微斗数十二宫，走一趟认识自己的路</p>
+    </div>
+
+    <a href={base + "/self-awareness"} class="trip-card">
+      <p class="trip-note">每一宫都是一面镜子——走完十二站，你看见的是完整的自己。</p>
+      <span class="trip-enter">进入旅程 →</span>
+    </a>
+  </section>
+
+  <!-- ===== 03 四化标签 ===== -->
+  <section class="section">
+    <div class="section-head">
+      <span class="sec-no">03</span>
       <h2>从这里开始</h2>
       <p>我的四化：每一化都是一条路</p>
     </div>
@@ -121,34 +135,6 @@ function fmtDate(d) {
         <span class="tag-name">突破认知</span>
         <p>打破那些理所当然</p>
       </a>
-    </div>
-  </section>
-
-  <!-- ===== 03 数据一览（杂志式分隔） ===== -->
-  <section class="section">
-    <div class="section-head">
-      <span class="sec-no">03</span>
-      <h2>数字档案</h2>
-      <p>这个网站目前的规模</p>
-    </div>
-
-    <div class="stats">
-      <div class="stat">
-        <div class="num" id="stat-days">1</div>
-        <div class="label">持续经营（天）</div>
-      </div>
-      <div class="stat">
-        <div class="num">5</div>
-        <div class="label">内容板块</div>
-      </div>
-      <div class="stat">
-        <div class="num">1</div>
-        <div class="label">可视化作品</div>
-      </div>
-      <div class="stat">
-        <div class="num">7</div>
-        <div class="label">首页金句</div>
-      </div>
     </div>
   </section>
 
@@ -586,35 +572,44 @@ function fmtDate(d) {
     border-color: var(--accent);
   }
 
-  /* ===== 数据一览（杂志式） ===== */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
+  /* ===== 02 十二之旅：入口卡片（与四化卡片同款风格） ===== */
+  .trip-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.6rem 1.8rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.25s ease;
   }
 
-  .stat {
-    padding: 0.4rem 1.6rem;
-    border-left: 1px solid var(--border);
+  .trip-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-3px);
   }
 
-  .stat:first-child {
-    border-left: none;
-    padding-left: 0;
+  .trip-card .trip-note {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    line-height: 1.8;
   }
 
-  .stat .num {
-    font-size: 2.9rem;
+  .trip-enter {
+    flex-shrink: 0;
+    font-size: 0.9rem;
     font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    transition: transform 0.25s ease;
   }
 
-  .stat .label {
-    font-size: 0.88rem;
-    color: var(--muted);
-    margin-top: 0.4rem;
-    letter-spacing: 0.05em;
+  .trip-card:hover .trip-enter {
+    transform: translateX(5px);
   }
 
   /* ===== 四化标签卡片 ===== */
@@ -776,14 +771,11 @@ function fmtDate(d) {
       gap: 1.4rem;
     }
 
-    .stats {
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: 1.8rem;
-    }
-
-    .stat:nth-child(3) {
-      border-left: none;
-      padding-left: 0;
+    .trip-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 1.4rem 1.5rem;
     }
 
     .tag-grid {
@@ -917,12 +909,4 @@ function fmtDate(d) {
     // 不支持时直接全部显示
     sections.forEach((s) => s.classList.add("visible"));
   }
-
-  // ===== 持续经营天数：从上线日（2026-08-25）算起 =====
-  const launch = new Date("2026-08-25T00:00:00+08:00");
-  const days = Math.max(
-    1,
-    Math.floor((Date.now() - launch.getTime()) / 86400000) + 1
-  );
-  document.getElementById("stat-days").textContent = String(days);
 </script>

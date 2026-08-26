@@ -1,0 +1,283 @@
+---
+// 自我觉察：十二之旅 —— 紫微斗数十二宫自我觉察（表盘布局）
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { palaces } from "../data/palaces";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// 计算每个宫位的坐标（01 在 12 点，逆时针排列）
+const positioned = palaces.map((p, i) => {
+  const angle = ((-90 - i * 30) * Math.PI) / 180;
+  return {
+    ...p,
+    x: (50 + 39 * Math.cos(angle)).toFixed(2),
+    y: (50 + 39 * Math.sin(angle)).toFixed(2),
+  };
+});
+
+// 辐线：从中心文字区边缘到宫位徽章（表盘刻度感）
+const spokes = positioned.map((p, i) => {
+  const angle = ((-90 - i * 30) * Math.PI) / 180;
+  return {
+    x1: (50 + 15 * Math.cos(angle)).toFixed(2),
+    y1: (50 + 15 * Math.sin(angle)).toFixed(2),
+    x2: (50 + 39 * Math.cos(angle)).toFixed(2),
+    y2: (50 + 39 * Math.sin(angle)).toFixed(2),
+  };
+});
+---
+
+<BaseLayout title="自我觉察：十二之旅 —— 商陆有四化">
+  <div class="page-head">
+    <span class="sec-no">十二宫 · 自我觉察</span>
+    <h1>自我觉察：十二之旅</h1>
+    <p>用紫微斗数十二宫，走一趟认识自己的路</p>
+  </div>
+
+  <!-- 十二宫说明 -->
+  <section class="trip-intro">
+    <p>
+      紫微斗数把人生切成十二个宫位——从命宫到父母宫，每一宫都对应生命的一个领域。
+      这里不问吉凶，只把它当作十二面镜子：<strong>一宫一站，一站一问</strong>，重新认识自己。
+    </p>
+  </section>
+
+  <!-- 十二宫表盘 -->
+  <section class="section">
+    <div class="clock">
+      <!-- 盘面：虚线外圆 + 辐线（表盘刻度） -->
+      <svg class="clock-svg" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="48" />
+        {spokes.map((l) => (
+          <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} />
+        ))}
+      </svg>
+
+      <!-- 十二宫光斑（可点击进入各自详情页） -->
+      {positioned.map((p) => (
+        <a
+          class="palace"
+          href={base + "/self-awareness/" + p.no}
+          data-q={p.q}
+          data-name={p.name}
+          data-hover={p.hover}
+          style={`left:${p.x}%;top:${p.y}%`}
+        >
+          <span class="p-no">{p.no}</span>
+          <span class="p-name">{p.name}</span>
+        </a>
+      ))}
+
+      <!-- 盘心：默认底句，hover 宫位时切换为该宫的问题 -->
+      <div class="clock-center">
+        <p>每一宫都是一面镜子——<br />走完十二站，你看见的是完整的自己。</p>
+      </div>
+    </div>
+
+    <p class="trip-hint">把鼠标移到每一宫上，看看它在问你什么</p>
+
+    <p class="trip-back">
+      <a href={base + "/"}>← 返回首页</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  /* 页头小标（十二宫 · 自我觉察） */
+  .page-head .sec-no {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* 十二宫说明（左线引文） */
+  .trip-intro {
+    padding: 1.2rem 0 1.2rem 1.6rem;
+    border-left: 2px solid var(--accent);
+    max-width: 42em;
+  }
+
+  .trip-intro p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 2.05;
+  }
+
+  .trip-intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ===== 表盘 ===== */
+  .clock {
+    position: relative;
+    width: min(88vw, 620px);
+    aspect-ratio: 1;
+    margin: 0 auto;
+  }
+
+  /* 盘面 SVG：虚线外圆 + 辐线 */
+  .clock-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .clock-svg circle,
+  .clock-svg line {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+
+  /* 宫位：晕染模糊的圆（无边框） */
+  .palace {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    transition: all 0.25s ease;
+    z-index: 2;
+  }
+
+  /* 晕染光斑：accent 色柔和模糊圆 */
+  .palace::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    filter: blur(14px);
+    opacity: 0.65;
+    transform: scale(1);
+    transition: all 0.3s ease;
+    z-index: -1;
+  }
+
+  .palace:hover::before {
+    opacity: 1;
+    transform: scale(1.15);
+    filter: blur(12px);
+    background: color-mix(in srgb, var(--gold) 26%, transparent);
+  }
+
+  .palace:hover {
+    transform: translate(-50%, -50%) translateY(-2px);
+  }
+
+  .p-no {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    transition: opacity 0.25s ease;
+  }
+
+  .p-name {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  /* 盘心：无边框浮动文字，背景为底色用于遮住辐线 */
+  .clock-center {
+    position: absolute;
+    inset: 27%;
+    border-radius: 50%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .clock-center p {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    letter-spacing: 0.08em;
+    line-height: 2.1;
+    color: var(--muted);
+  }
+
+  /* 提示语 */
+  .trip-hint {
+    margin-top: 2.2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* 返回首页 */
+  .trip-back {
+    margin-top: 1.8rem;
+    text-align: center;
+    font-size: 0.92rem;
+  }
+
+  .trip-back a {
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .trip-back a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ===== 响应式（移动端：徽章缩小） ===== */
+  @media (max-width: 720px) {
+    .palace {
+      width: 80px;
+      height: 80px;
+      gap: 0.15rem;
+    }
+
+    .p-no {
+      font-size: 0.65rem;
+    }
+
+    .p-name {
+      font-size: 1.05rem;
+    }
+
+    .clock-center p {
+      font-size: 0.95rem;
+      line-height: 1.95;
+    }
+  }
+</style>
+
+<script>
+  // 盘心联动：hover 宫位时盘心显示该宫的问题，宫名切换为主题词；移开全部恢复
+  const centerText = document.querySelector(".clock-center p");
+  if (centerText) {
+    const noteHTML = centerText.innerHTML;
+    document.querySelectorAll(".palace").forEach((p) => {
+      const nameEl = p.querySelector(".p-name");
+      p.addEventListener("mouseenter", () => {
+        centerText.innerHTML = p.dataset.q;
+        nameEl.textContent = p.dataset.hover;
+      });
+      p.addEventListener("mouseleave", () => {
+        centerText.innerHTML = noteHTML;
+        nameEl.textContent = p.dataset.name;
+      });
+    });
+  }
+</script>
