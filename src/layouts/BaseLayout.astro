@@ -10,9 +10,15 @@ import "@fontsource/noto-serif-sc/chinese-simplified-700.css";
 interface Props {
   title: string;
   description?: string;
+  /** 宽版布局：内容区从 860px 加宽到 1280px（杂志网格首页用） */
+  wide?: boolean;
 }
 
-const { title, description = "商陆有四化 —— 普通人如何在当下社会里快速积累认知" } = Astro.props;
+const {
+  title,
+  description = "商陆有四化 —— 普通人如何在当下社会里快速积累认知",
+  wide = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -130,6 +136,19 @@ const { title, description = "商陆有四化 —— 普通人如何在当下社
       /* 标题统一用宋体（设计感核心） */
       h1, h2, h3, .logo, .hero-title, .stat .num, .entry-title {
         font-family: var(--font-serif);
+      }
+
+      /* ===== 宽版布局（wide）：内容区铺满到 1280px，杂志网格首页用 ===== */
+      body.wide .site-header .container {
+        max-width: 1280px;
+      }
+
+      body.wide main {
+        max-width: 1280px;
+      }
+
+      body.wide .site-footer .footer-inner {
+        max-width: 1280px;
       }
 
       /* ===== 导航条 ===== */
@@ -325,7 +344,7 @@ const { title, description = "商陆有四化 —— 普通人如何在当下社
     </style>
   </head>
 
-  <body>
+  <body class={wide ? "wide" : ""}>
     <Header />
     <main>
       <slot />

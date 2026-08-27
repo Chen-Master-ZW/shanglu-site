@@ -17,7 +17,7 @@ function fmtDate(d) {
 }
 ---
 
-<BaseLayout title="商陆有四化 —— 普通人如何在当下社会里快速积累认知">
+<BaseLayout title="商陆有四化 —— 普通人如何在当下社会里快速积累认知" wide>
   <!-- ===== 品牌区（非对称 hero） ===== -->
   <section class="hero">
     <div class="hero-glow" aria-hidden="true"></div>
@@ -152,12 +152,12 @@ function fmtDate(d) {
           updates.map((u) => (
             <li>
               <a
-                class="t-date"
+                class="t-link"
                 href={base + "/updates#" + u.id}
               >
-                {fmtDate(u.data.date)}
+                <span class="t-date">{fmtDate(u.data.date)}</span>
+                <span class="t-count">{u.data.count ?? 0} 条更新</span>
               </a>
-              <span class="t-count">{u.data.count ?? 0} 条更新</span>
             </li>
           ))
         }
@@ -211,6 +211,10 @@ function fmtDate(d) {
     grid-template-columns: 1fr auto;
     gap: 3.5rem;
     align-items: center;
+    /* 宽版下品牌区内容保持紧凑居中，不随全宽拉散 */
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
   }
 
   .hero-eyebrow {
@@ -438,7 +442,7 @@ function fmtDate(d) {
 
   /* ===== 区块通用（滚动渐显） ===== */
   .section {
-    margin-top: 5rem;
+    margin-top: 5.5rem;
   }
 
   /* JS 可用时：区块初始隐藏，进入视口后浮现 */
@@ -451,6 +455,12 @@ function fmtDate(d) {
   html.js .section.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* 杂志网格：内容区加宽后，区块标题与卡片同宽铺满 */
+  .section > .section-head {
+    max-width: 980px;
+    margin-left: 0;
   }
 
   .section-head {
@@ -578,7 +588,7 @@ function fmtDate(d) {
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 1.6rem 1.8rem;
+    padding: 2rem 2.2rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -586,8 +596,9 @@ function fmtDate(d) {
   }
 
   .trip-card:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent),
+      var(--shadow);
+    background: color-mix(in srgb, var(--gold) 7%, var(--bg-card));
     transform: translateY(-3px);
   }
 
@@ -597,6 +608,16 @@ function fmtDate(d) {
     letter-spacing: 0.06em;
     color: var(--text);
     line-height: 1.8;
+    transition: color 0.25s ease;
+  }
+
+  /* 同四化标签卡：悬停时文字转金色 */
+  .trip-card:hover .trip-note {
+    color: var(--gold);
+  }
+
+  .trip-card:hover .trip-enter {
+    color: var(--gold);
   }
 
   .trip-enter {
@@ -605,124 +626,159 @@ function fmtDate(d) {
     font-weight: 600;
     letter-spacing: 0.1em;
     color: var(--accent);
-    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, color 0.25s ease;
   }
 
   .trip-card:hover .trip-enter {
     transform: translateX(5px);
   }
 
-  /* ===== 四化标签卡片 ===== */
+  /* ===== 四化标签卡片（2x2 大卡） ===== */
   .tag-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .tag-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    min-height: 260px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.6rem 1.3rem;
+    padding: 3rem 2rem;
     background: var(--bg-card);
     text-align: center;
     transition: all 0.25s ease;
   }
 
+  /* 悬停时：边框颜色保持不变，其余效果（背景淡染 + 金色光晕阴影 + 浮起）保留，文字转金色 */
   .tag-card:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent),
+      var(--shadow);
+    background: color-mix(in srgb, var(--gold) 7%, var(--bg-card));
     transform: translateY(-3px);
+  }
+
+  /* 悬停时文字变色：单字与名称转金色（同自我觉察盘的金色氛围） */
+  .tag-card:hover .tag-char {
+    color: var(--gold);
+  }
+
+  .tag-card:hover .tag-name {
+    color: var(--gold);
+  }
+
+  .tag-card:hover p {
+    color: var(--text);
+  }
+
+  .tag-char,
+  .tag-name {
+    transition: color 0.25s ease;
+  }
+
+  .tag-card p {
+    transition: color 0.25s ease;
   }
 
   .tag-char {
     display: block;
     font-family: var(--font-serif);
-    font-size: 2.6rem;
+    font-size: 4.2rem;
     font-weight: 700;
     color: var(--accent);
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
+    line-height: 1.1;
   }
 
   .tag-name {
     display: block;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
   }
 
   .tag-card p {
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     color: var(--muted);
+    max-width: 24em;
   }
 
-  /* ===== 更新日志索引（只显示日期） ===== */
+  /* ===== 更新日志索引（杂志式卡片网格，点击日期看完整日志） ===== */
   .timeline-wrap {
-    max-height: 320px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
     padding-right: 0.4rem;
-  }
-
-  .timeline-wrap::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .timeline-wrap::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 999px;
   }
 
   .timeline {
     list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 1.1rem;
   }
 
   .timeline li {
     position: relative;
-    padding-left: 2rem;
-    padding-bottom: 1.5rem;
-    border-left: 1px solid var(--border);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.25s ease;
   }
 
-  .timeline li:last-child {
-    padding-bottom: 0;
+  /* 整卡可点击：链接铺满卡片 */
+  .t-link {
+    display: block;
+    height: 100%;
+    padding: 1.3rem 1.5rem;
+  }
+
+  .timeline li:hover {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent),
+      var(--shadow);
+    background: color-mix(in srgb, var(--gold) 7%, var(--bg-card));
+    transform: translateY(-3px);
+  }
+
+  /* 同四化标签卡：悬停时日期文字转金色 */
+  .timeline li:hover .t-date {
+    color: var(--gold);
+  }
+
+  .timeline li:hover .t-count {
+    color: var(--text);
   }
 
   .timeline li::before {
     content: "";
     position: absolute;
-    left: -5px;
-    top: 7px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
+    top: -1px;
+    left: 1.5rem;
+    width: 28px;
+    height: 3px;
+    border-radius: 999px;
     background: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
   }
 
   .t-date {
+    display: block;
     font-family: var(--font-serif);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--accent);
-    border-bottom: 1px solid transparent;
-    transition: all 0.2s ease;
-  }
-
-  .t-date:hover {
-    border-color: var(--accent);
+    transition: color 0.25s ease;
   }
 
   .t-count {
-    margin-left: 0.8rem;
+    display: block;
+    margin-top: 0.35rem;
     font-size: 0.85rem;
     color: var(--muted);
     letter-spacing: 0.05em;
+    transition: color 0.25s ease;
   }
 
   .timeline-more {
@@ -779,7 +835,12 @@ function fmtDate(d) {
     }
 
     .tag-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
+    }
+
+    .tag-card {
+      min-height: 180px;
+      padding: 2.2rem 1.6rem;
     }
   }
 </style>
